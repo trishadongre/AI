@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatrix | Intelligence Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container py-4">
+        <!-- Main Header -->
+        <header class="glass-panel d-flex justify-content-between align-items-center mb-4 px-4 py-3">
+            <h3 class="fw-bold mb-0">CINE<span class="neon-text">MATRIX</span></h3>
+            
+            <form action="/dashboard" method="GET" class="d-flex w-50 mx-4">
+                <input type="text" name="search" class="form-control search-input me-2" placeholder="Search the movie matrix...">
+                <button class="btn btn-neon" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+
+            <div class="d-flex align-items-center">
+                <a href="/watchlist" class="btn btn-outline-info btn-sm me-3 rounded-pill px-3">
+                    <i class="fas fa-bookmark me-1"></i> WATCHLIST ({{ session['watchlist']|length }})
+                </a>
+                <a href="/logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">LOGOUT</a>
+            </div>
+        </header>
+
+        <!-- Genre Matrix Filter -->
+        <div class="d-flex justify-content-center gap-2 mb-5 flex-wrap">
+            {% for g in ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Horror', 'Romance', 'Animation'] %}
+            <a href="/dashboard?genre={{ g }}" class="genre-pill {{ 'active' if current_genre == g }}">
+                {{ g }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- Heading -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold">
+                {% if current_genre %} 
+                    Recommended <span class="neon-text">{{ current_genre }}</span> 
+                {% else %}
+                    System <span class="neon-text">Top Picks</span>
+                {% endif %}
+            </h1>
+            <p class="text-secondary opacity-75">Analysis based on User-Item Matrix collaborative patterns.</p>
+        </div>
+
+        <!-- Recommendations Grid -->
+        <div class="row g-4">
+            {% for m in movies %}
+            <div class="col-6 col-md-3">
+                <div class="movie-card text-center h-100">
+                    <div class="poster-container">
+                        <img src="{{ m.poster }}" class="poster-img" alt="Poster">
+                    </div>
+                    <div class="p-3">
+                        <h6 class="fw-bold text-truncate mb-1">{{ m.title }}</h6>
+                        <p class="small text-secondary mb-3">{{ m.genre }}</p>
+                        <a href="/movie/{{ m.title }}" class="btn btn-neon btn-sm w-100 py-2">VIEW DETAILS</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-5">
+                <h3 class="text-secondary">No movie data found in this matrix layer.</h3>
+                <a href="/dashboard" class="btn btn-neon mt-3">Reset Filters</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

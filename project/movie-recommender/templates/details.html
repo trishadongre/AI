@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container py-5">
+        <a href="/dashboard" class="btn btn-outline-light mb-4 rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i> BACK TO DASHBOARD
+        </a>
+
+        <div class="glass-panel p-5">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <img src="{{ m.Poster }}" class="img-fluid rounded-4 shadow border-neon w-100">
+                </div>
+                <div class="col-md-8 ps-md-5">
+                    <h1 class="display-4 fw-bold neon-text mb-2">{{ m.Title }}</h1>
+                    <p class="text-secondary mb-4">{{ m.Year }} • {{ m.Genre }} • {{ m.Runtime }}</p>
+                    
+                    <div class="mb-4">
+                        <span class="badge bg-warning text-dark px-3 py-2 me-2">IMDb {{ m.imdbRating }}</span>
+                        <span class="badge bg-outline-info border-info text-info px-3 py-2">{{ m.Rated }}</span>
+                    </div>
+
+                    <h5 class="fw-bold neon-text small mb-2">PLOT SUMMARY</h5>
+                    <p class="text-light opacity-75 lead">{{ m.Plot }}</p>
+
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <h6 class="neon-text small fw-bold">DIRECTOR</h6>
+                            <p class="mb-0">{{ m.Director }}</p>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="neon-text small fw-bold">CAST</h6>
+                            <p class="mb-0 text-truncate">{{ m.Actors }}</p>
+                        </div>
+                    </div>
+
+                    <hr class="opacity-25 my-4">
+                    
+                    <a href="/add_to_watchlist/{{ m.Title }}" class="btn btn-neon px-5 py-3 fw-bold">
+                        <i class="fas fa-plus me-2"></i> ADD TO WATCHLIST
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
